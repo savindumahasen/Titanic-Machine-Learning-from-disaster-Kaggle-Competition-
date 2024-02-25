@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Survival Prediction</title>
+</head>
+<body>
+    <h1>Survival Prediction</h1>
+    <form id="predictionForm">
+        <label for="pclass">Pclass:</label>
+        <input type="number" name="pclass" id="pclass" required><br>
+        <label for="sex">Sex (male/female):</label>
+        <input type="text" name="sex" id="sex" required><br>
+        <label for="age">Age:</label>
+        <input type="number" name="age" id="age" required><br>
+        <label for="sibsp">SibSp:</label>
+        <input type="number" name="sibsp" id="sibsp" required><br>
+        <label for="parch">Parch:</label>
+        <input type="number" name="parch" id="parch" required><br>
+        <label for="fare">Fare:</label>
+        <input type="number" name="fare" id="fare" required><br>
+        <label for="embarked">Embarked (C/Q/S):</label>
+        <input type="text" name="embarked" id="embarked" required><br>
+        <button type="submit">Predict</button>
+    </form>
+    <div id="result"></div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#predictionForm').submit(function(event) {
+                event.preventDefault();
+                var formData = $(this).serialize();
+                $.ajax({
+                    type: 'POST',
+                    url: '/predict',
+                    data: formData,
+                    success: function(response) {
+                        $('#result').text('Prediction: ' + response.result);
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
